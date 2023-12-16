@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "App-Ecommerce",
+    "slug": "App-Ecommerce",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/ChaoChao.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/ChaoChao.png",
+      "resizeMode": "cover"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/ChaoChao.png",
+        "resizeMode" : "cover"
+      }
+    },
+    "web": {
+      "favicon": "./assets/ChaoChao.png"
+    }
+  }
+}
