@@ -16,6 +16,8 @@ import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
 import OrderScreen from "../screens/OrderScreen";
+import NoticeScreen from "../screens/NoticeScreen";
+import OrderDetailScreen from "../screens/OrderDetailScreen";
 
 const StackNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -38,9 +40,9 @@ const StackNavigator = () => {
                             ),
                     }}
                 />
-                {/* <Tab.Screen
+                 <Tab.Screen
                     name="Notifications"
-                    component={ProfileScreen}
+                    component={NoticeScreen}
                     options={{
                         tabBarLabel: "Notifications",
                         tabBarLabelStyle: { color: "#B00406" },
@@ -52,7 +54,7 @@ const StackNavigator = () => {
                                 <Ionicons name="notifications-outline" size={24} color="gray" />
                             ),
                     }}
-                /> */}
+                /> 
 
                 <Tab.Screen
                     name="Profile"
@@ -129,6 +131,11 @@ const StackNavigator = () => {
                     name="Order"
                     component={OrderScreen}
                     options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="OrderDetail"
+                    component={OrderDetailScreen}
+                    options={{ headerShown: true }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 const port = 8000;
 const ipAddress = "192.168.43.131";
+//const ipAddress = "192.168.1.10";
 const jwt = require("jsonwebtoken");
 
 
@@ -21,8 +22,8 @@ app.listen(port, ipAddress, () => {
 });
 
 
-
 mongoose.connect("mongodb+srv://trunglequanghz:trung@cluster0.mlns87m.mongodb.net/", {
+//mongoose.connect("mongodb+srv://Letuongvi:1222029260@cluster0.htwzbqp.mongodb.net/", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,
@@ -245,4 +246,23 @@ mongoose.connect("mongodb+srv://trunglequanghz:trung@cluster0.mlns87m.mongodb.ne
         res.status(500).json({ message: "Error"});
       }
     })
+    
+    app.get('/orders/:orderId', async (req, res) => {
+      try {
+        const orderId = req.params.orderId;
+    
+        // Tìm đơn hàng trong cơ sở dữ liệu dựa trên orderId
+        const order = await Order.findById(orderId).populate('user');
+    
+        if (!order) {
+          return res.status(404).json({ message: 'Order not found' });
+        }
+    
+        // Nếu tìm thấy đơn hàng, gửi thông tin chi tiết của đơn hàng về client
+        res.status(200).json({ order });
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+        res.status(500).json({ message: 'Error fetching order details' });
+      }
+    });
     
