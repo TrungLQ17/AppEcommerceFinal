@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 const port = 8000;
 const ipAddress = "192.168.43.131";
+//const ipAddress = "192.168.1.10";
 const jwt = require("jsonwebtoken");
 
 
@@ -21,12 +22,19 @@ app.listen(port, ipAddress, () => {
 });
 
 
-
 mongoose.connect("mongodb+srv://trunglequanghz:trung@cluster0.mlns87m.mongodb.net/", {
+<<<<<<< HEAD
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000,
 })
+=======
+//mongoose.connect("mongodb+srv://Letuongvi:1222029260@cluster0.htwzbqp.mongodb.net/", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+  })
+>>>>>>> 455db45fcd759cd235c711919a87f433028a29b0
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -202,6 +210,7 @@ app.post("/orders", async (req, res) => {
       shippingAddress: shippingAddress,
       paymentMethod: paymentMethod,
     });
+<<<<<<< HEAD
 
     await order.save();
 
@@ -264,3 +273,155 @@ app.post("/setAccount/:userID", async (req, res) => {
     res.status(500).json({ message: "Error updating password" });
   }
 });
+=======
+    
+    const generateSecretKey = () => {
+      const secretKey = crypto.randomBytes(32).toString("hex");
+    
+      return secretKey;
+    };
+    
+    const secretKey = generateSecretKey();
+    
+    app.post("/login", async (req, res) => {
+      try {
+        const { email, password } = req.body;
+    
+        const user = await User.findOne({ email });
+        if (!user) {
+          return res.status(401).json({ message: "Invalid email or password" });
+        }
+    
+        if (user.password !== password) {
+          return res.status(401).json({ message: "Invalid password" });
+        }
+    
+        const token = jwt.sign({ userId: user._id }, secretKey);
+    
+        res.status(200).json({ token });
+      } catch (error) {
+        res.status(500).json({ message: "Login Failed" });
+      }
+    });
+    
+    app.post("/addresses", async (req, res) => {
+      try {
+        const { userId, address } = req.body;
+    
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+    
+        user.addresses.push(address);
+    
+        await user.save();
+    
+        res.status(200).json({ message: "Address created Successfully" });
+      } catch (error) {
+        res.status(500).json({ message: "Error addding address" });
+      }
+    });
+    
+    app.get("/addresses/:userId", async (req, res) => {
+      try {
+        const userId = req.params.userId;
+    
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+    
+        const addresses = user.addresses;
+        res.status(200).json({ addresses });
+      } catch (error) {
+        res.status(500).json({ message: "Error retrieveing the addresses" });
+      }
+    });
+    
+    app.post("/orders", async (req, res) => {
+      try {
+        const { userId, cartItems, totalPrice, shippingAddress, paymentMethod } =
+          req.body;
+    
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+    
+        const products = cartItems.map((item) => ({
+          name: item?.title,
+          quantity: item.quantity,
+          price: item.price,
+          image: item?.image,
+        }));
+    
+        const order = new Order({
+          user: userId,
+          products: products,
+          totalPrice: totalPrice,
+          shippingAddress: shippingAddress,
+          paymentMethod: paymentMethod,
+        });
+    
+        await order.save();
+    
+        res.status(200).json({ message: "Order created successfully!" });
+      } catch (error) {
+        console.log("error creating orders", error);
+        res.status(500).json({ message: "Error creating orders" });
+      }
+    });
+    
+    app.get("/profile/:userId", async (req, res) => {
+      try {
+        const userId = req.params.userId;
+    
+        const user = await User.findById(userId);
+    
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+    
+        res.status(200).json({ user });
+      } catch (error) {
+        res.status(500).json({ message: "Error retrieving the user profile" });
+      }
+    });
+    
+    app.get("/orders/:userId",async(req,res) => {
+      try{
+        const userId = req.params.userId;
+    
+        const orders = await Order.find({user:userId}).populate("user");
+    
+        if(!orders || orders.length === 0){
+          return res.status(404).json({message:"No orders found for this user"})
+        }
+    
+        res.status(200).json({ orders });
+      } catch(error){
+        res.status(500).json({ message: "Error"});
+      }
+    })
+    
+    app.get('/orders/:orderId', async (req, res) => {
+      try {
+        const orderId = req.params.orderId;
+    
+        // Tìm đơn hàng trong cơ sở dữ liệu dựa trên orderId
+        const order = await Order.findById(orderId).populate('user');
+    
+        if (!order) {
+          return res.status(404).json({ message: 'Order not found' });
+        }
+    
+        // Nếu tìm thấy đơn hàng, gửi thông tin chi tiết của đơn hàng về client
+        res.status(200).json({ order });
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+        res.status(500).json({ message: 'Error fetching order details' });
+      }
+    });
+    
+>>>>>>> 455db45fcd759cd235c711919a87f433028a29b0
