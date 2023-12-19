@@ -16,12 +16,9 @@ import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
 import OrderScreen from "../screens/OrderScreen";
-<<<<<<< HEAD
 import YourAccount from "../screens/YourAccount";
-=======
 import NoticeScreen from "../screens/NoticeScreen";
 import OrderDetailScreen from "../screens/OrderDetailScreen";
->>>>>>> 455db45fcd759cd235c711919a87f433028a29b0
 
 const StackNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -137,15 +134,14 @@ const StackNavigator = () => {
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-<<<<<<< HEAD
                     name="Account"
                     component={YourAccount}
                     options={{ headerShown: false }}
-=======
+                 />
+                 <Stack.Screen
                     name="OrderDetail"
                     component={OrderDetailScreen}
                     options={{ headerShown: true }}
->>>>>>> 455db45fcd759cd235c711919a87f433028a29b0
                 />
             </Stack.Navigator>
         </NavigationContainer>
