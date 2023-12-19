@@ -10,7 +10,8 @@ import {
   Pressable,
   StyleSheet,
   Button,
-  TouchableOpacity
+  TouchableOpacity, 
+  Alert
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -28,21 +29,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [rememberAccount, setRememberAccount] = useState(false);
   const navigation = useNavigation();
-
-  // useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     try {
-  //       const token = await AsyncStorage.getItem("authToken");
-
-  //       if (token) {
-  //         navigation.replace("Main");
-  //       }
-  //     } catch (err) {
-  //       console.log("error message", err);
-  //     }
-  //   };
-  //   checkLoginStatus();
-  // }, []);
 
   const handleLogin = () => {
     const user = {

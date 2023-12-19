@@ -39,6 +39,7 @@ const OrderScreen = () => {
       <LottieView
         source={require("../assets/sparkle.json")}
         style={{
+          
           height: 300,
           position: "absolute",
           top: 100,
