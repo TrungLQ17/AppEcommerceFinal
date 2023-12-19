@@ -423,5 +423,24 @@ app.post("/setAccount/:userID", async (req, res) => {
         res.status(500).json({ message: 'Error fetching order details' });
       }
     });
-    
->>>>>>> 455db45fcd759cd235c711919a87f433028a29b0
+
+    //đổi pass
+app.post("/setAccount/:userID", async (req, res) => {
+  try {
+    const userId = req.params.userID;
+    const { newPassword } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Đổi mật khẩu thành công" });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({ message: "Error updating password" });
+  }
+});
